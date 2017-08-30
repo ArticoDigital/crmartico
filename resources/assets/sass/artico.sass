@@ -1,0 +1,517 @@
+
+//Modificar estilos base en config.sass
+*
+  box-sizing: border-box
+
+body
+  background  : $body--background
+  font-family : $body--font-family
+  color       : $body--color
+  overflow-x: hidden
+  font-size: 17px
+
+a
+  color           : $link--color
+  text-decoration : none
+
+p, blockquote, li
+  font-size   : $p--font-size
+  line-height : $p--line-height
+
+p
+  margin : 0 0 $p--margin 0
+  &:last-child,
+  &:only-child
+    margin: 0
+
+// Estilos básicos de los encabezados
+h1, h2, h3, h4, h5, h6
+  font-family    : $header--font-family
+  font-weight    : $header--font-weight
+  text-transform : $header--text-transform
+  color          : $header--color
+  text-align: center
+
+// Tamaños y estilos de los encabezados:
+h1
+  font-size : $h1--font-size
+  line-height: 1.2
+
+h2
+  font-size : $h2--font-size
+
+h3
+  font-size : $h3--font-size
+
+h4
+  font-size : $h4--font-size
+
+h5
+  font-size : $h5--font-size
+
+h6
+  font-size : $h6--font-size
+
+li
+  list-style: none
+
+img
+  width: 100%
+
+figure figcaption
+  text-align: center
+
+html
+  font-family: sans-serif
+  line-height: 1.15
+  -ms-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%
+
+body
+  margin: 0
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary
+  display: block
+
+audio,
+canvas,
+progress,
+video
+  display: inline-block
+
+audio:not([controls])
+  display: none
+  height: 0
+
+progress
+  vertical-align: baseline
+
+template,
+[hidden]
+  display: none
+
+a
+  background-color: transparent
+  -webkit-text-decoration-skip: objects
+
+a:active,
+a:hover
+  outline-width: 0
+
+abbr[title]
+  border-bottom: none
+  text-decoration: underline
+  text-decoration: underline dotted
+
+b,
+strong
+  font-weight: inherit
+
+b,
+strong
+  font-weight: bolder
+
+dfn
+  font-style: italic
+
+h1
+  font-size: 2em
+  margin: 1rem 0
+
+mark
+  background-color: #ff0
+  color: #000
+
+small
+  font-size: 80%
+
+sub,
+sup
+  font-size: 75%
+  line-height: 0
+  position: relative
+  vertical-align: baseline
+
+sub
+  bottom: -0.25em
+sup
+  top: -0.5em
+
+img
+  border-style: none
+
+svg:not(:root)
+  overflow: hidden
+
+code,
+kbd,
+pre,
+samp
+  font-family: monospace, monospace
+  font-size: 1em
+
+figure
+  margin: 1em 40px
+
+hr
+  box-sizing: content-box
+  height: 0
+  overflow: visible
+
+button,
+input,
+optgroup,
+select,
+textarea
+  font: inherit
+  margin: 0
+
+optgroup
+  font-weight: bold
+
+button,
+input
+  overflow: visible
+
+button,
+select
+  text-transform: none
+
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"]
+  -webkit-appearance: button
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner
+  border-style: none
+  padding: 0
+
+button:-moz-focusring
+[type="button"]:-moz-focusring
+[type="reset"]:-moz-focusring
+[type="submit"]:-moz-focusring
+  outline: 1px dotted ButtonText
+
+fieldset
+  border: 1px solid #c0c0c0
+  margin: 0 2px
+  padding: 0.35em 0.625em 0.75em
+
+legend
+  box-sizing: border-box
+  color: inherit
+  display: table
+  max-width: 100%
+  padding: 0
+  white-space: normal
+
+textarea
+  overflow: auto
+
+[type="checkbox"],
+[type="radio"]
+  box-sizing: border-box
+  padding: 0
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button
+  height: auto
+
+[type="search"]
+  -webkit-appearance: textfield
+  outline-offset: -2px
+
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration
+  -webkit-appearance: none
+
+::-webkit-input-placeholder
+  color: inherit
+  opacity: 0.54
+
+::-webkit-file-upload-button
+  -webkit-appearance: button
+  font: inherit
+@function rem($pixels, $context: $browser-context)
+  @return #{$pixels/$context}rem
+
+@mixin respond-to($breakpoint)
+  @if $breakpoint == "small"
+    @media (min-width: 36rem)
+      @content
+
+  @else if $breakpoint == "medium"
+    @media (min-width: 45rem)
+      @content
+  @else if $breakpoint == "large"
+    @media (min-width: 75rem)
+      @content
+
+@mixin transition($transition...)
+  -moz-transition:    $transition
+  -o-transition:      $transition
+  -webkit-transition: $transition
+  transition:         $transition
+
+@mixin transform($transform...)
+  -moz-transform:    $transform
+  -o-transform:      $transform
+  -webkit-transform: $transform
+  transform:         $transform
+
+@mixin filter($filter-type,$filter-amount)
+  -webkit-filter: $filter-type+unquote('(#{$filter-amount})')
+  -moz-filter: $filter-type+unquote('(#{$filter-amount})')
+  -ms-filter: $filter-type+unquote('(#{$filter-amount})')
+  -o-filter: $filter-type+unquote('(#{$filter-amount})')
+  filter: $filter-type+unquote('(#{$filter-amount})')
+
+@mixin keyframes($animation-name)
+  @-webkit-keyframes  #{$animation-name}
+    @content
+
+  @-moz-keyframes #{$animation-name}
+    @content
+
+  @-ms-keyframes #{$animation-name}
+    @content
+
+  @-o-keyframes #{$animation-name}
+    @content
+
+  @keyframes #{$animation-name}
+    @content
+
+
+@mixin animate($str)
+  -webkit-animation: $str
+  -moz-animation: $str
+  -ms-animation: $str
+  -o-animation: $str
+  animation: $str
+
+@mixin placeholder
+  input::-webkit-input-placeholder
+    @content
+  input::-moz-placeholder
+    @content
+  input::-moz-placeholder
+    @content
+  input:-ms-input-placeholder
+    @content
+.row
+  display: -webkit-flex
+  display: -ms-flexbox
+  display: -webkit-box
+  display: flex
+
+  -webkit-flex: 0 1 auto
+  -ms-flex: 0 1 auto
+  -webkit-box-flex: 0
+  flex: 0 1 auto
+
+  -webkit-flex-direction: row
+  -ms-flex-direction: row
+  -webkit-box-orient: horizontal
+  -webkit-box-direction: normal
+  flex-direction: row
+
+  -webkit-flex-wrap: wrap
+  -ms-flex-wrap: wrap
+  flex-wrap: wrap
+
+
+  &.reverse
+    -webkit-flex-direction: row-reverse
+    -ms-flex-direction: row-reverse
+    -webkit-box-orient: horizontal
+    -webkit-box-direction: reverse
+    flex-direction: row-reverse
+
+
+.col.reverse
+  -webkit-flex-direction: column-reverse
+  -ms-flex-direction: column-reverse
+  -webkit-box-orient: vertical
+  -webkit-box-direction: reverse
+  flex-direction: column-reverse
+
+
+[class^="col-"],[class*=" col-"]
+  box-sizing: border-box
+  -webkit-flex: 0 0 auto
+  -ms-flex: 0 0 auto
+  -webkit-box-flex: 0
+  flex: 0 0 auto
+
+
+@for $i from 1 through $columns
+  .small-#{$i}
+    -ms-flex-preferred-size: ($i / $columns) * 100%
+    -webkit-flex-basis: ($i / $columns) * 100%
+    flex-basis: ($i / $columns) * 100%
+    max-width: ($i / $columns) * 100%
+
+@include respond-to(medium)
+  @for $i from 1 through $columns
+    .medium-#{$i}
+      -ms-flex-preferred-size: ($i / $columns) * 100%
+      -webkit-flex-basis: ($i / $columns) * 100%
+      flex-basis: ($i / $columns) * 100%
+      max-width: ($i / $columns) * 100%
+
+@include respond-to(large)
+  @for $i from 1 through $columns
+    .col-#{$i}
+      -ms-flex-preferred-size: ($i / $columns) * 100%
+      -webkit-flex-basis: ($i / $columns) * 100%
+      flex-basis: ($i / $columns) * 100%
+      max-width: ($i / $columns) * 100%
+
+.from-small,
+.from-medium,
+.from-large
+  display: none
+
+@for $i from 1 through $columns
+  .offset-small-#{$i}
+    margin-left: ($totalContainer / $columns) * $i
+
+@include respond-to(small)
+  .to-small
+    display: none
+  .from-small
+    display: inherit
+
+@include respond-to(medium)
+  .to-medium
+    display: none
+  .from-medium
+    display: inherit
+  @for $i from 1 through $columns
+    .offset-medium-#{$i}
+      margin-left: ($totalContainer / $columns) * $i
+
+@include respond-to(large)
+  .to-large
+    display: none
+  .from-large
+    display: inherit
+  @for $i from 1 through $columns
+    .offset-#{$i}
+      margin-left: ($totalContainer / $columns) * $i
+
+
+.start
+  -webkit-justify-content: flex-start
+  -ms-flex-pack: start
+  -webkit-box-pack: start
+  justify-content: flex-start
+  text-align: start
+
+
+.center
+  -webkit-justify-content: center
+  -ms-flex-pack: center
+  -webkit-box-pack: center
+  justify-content: center
+  text-align: center
+
+
+.end
+  -webkit-justify-content: flex-end
+  -ms-flex-pack: end
+  -webkit-box-pack: end
+  justify-content: flex-end
+  text-align: end
+
+
+.top
+  -webkit-align-items: flex-start
+  -ms-flex-align: start
+  -webkit-box-align: start
+  align-items: flex-start
+
+
+.middle
+  -webkit-align-items: center
+  -ms-flex-align: center
+  -webkit-box-align: center
+  align-items: center
+
+
+.stretch
+  -webkit-align-items: stretch
+  -ms-flex-align: stretch
+  -webkit-box-align: stretch
+  align-items: stretch
+.bottom
+  -webkit-align-items: flex-end
+  -ms-flex-align: end
+  -webkit-box-align: end
+  align-items: flex-end
+
+.baseline
+  -webkit-align-items: baseline
+  -ms-flex-align: baseline
+  -webkit-box-align: baseline
+  align-items: baseline
+
+.around
+  -webkit-justify-content: space-around
+  -ms-flex-pack: distribute
+  justify-content: space-around
+
+.between
+  -webkit-justify-content: space-between
+  -ms-flex-pack: justify
+  -webkit-box-pack: justify
+  justify-content: space-between
+
+
+.first
+  -webkit-order: -1
+  -ms-flex-order: -1
+  -webkit-box-ordinal-group: 0
+  order: -1
+
+
+.last
+  -webkit-order: 1
+  -ms-flex-order: 1
+  -webkit-box-ordinal-group: 2
+  order: 1
+
+.self-start
+  align-self: flex-start
+
+.self-end
+  align-self: flex-end
+.self-center
+  align-self: center
+.self-baseline
+  align-self: baseline
+.self-stretch
+  align-self: stretch
+
+.columns
+  flex-direction: column
+  div:nth-child(even)
+    padding-right: rem(10)
+  div:nth-child(odd)
+    padding-left: rem(10)

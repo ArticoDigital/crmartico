@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Models\Invoice;
+use App\Models\SocialProfile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
@@ -17,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','avatar','image','username'
     ];
 
     /**
@@ -28,4 +30,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function socialProfiles(){
+        return $this->hasMany(SocialProfile::class);
+    }
+    public function invoices(){
+        return $this->hasMany(Invoice::class);
+    }
 }

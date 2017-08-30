@@ -1,0 +1,128 @@
+// VARIABLES GENERALES
+
+//FONT FACE
+
+
+
+
+$light      : 300
+$normal     : 400
+$semi-bold  : 600
+$bold       : 700
+$extra-bold : 800
+
+// PALETA DE COLORES
+
+$white        : #fff
+$black        : #000
+$light-blue   : #538BF4
+$dark-blue    : #434C5E
+$yellow       : #f6b11e
+$gray         : #ebebeb
+
+// ESTILOS BASE
+$body--background  : #fff                      // fondo para el body
+$body--font-family : 'Roboto', sans-serif  // fuente predeterminada
+$font-roboto : 'Roboto', sans-serif // fuente predeterminada
+$body--color       : #434C5E                      // color de texto predeterminado
+
+// ESTILOS DE ENCABEZADOS
+$header--font-family    : 'Roboto', sans-serif    // fuente para los headers (h1,h2,h3...)
+$header--font-weight    : $bold                    // grosor de fuente para los headers
+$header--text-transform : normal                   // normal, uppercase, lowercase, capitalize
+$header--color          : #000                     // color predeterminado de los header
+
+// TAMAÑO DE LOS ENCABEZADOS (h1...h6)
+$h1--font-size : 2em
+$h2--font-size : 1.6em
+$h3--font-size : 1.3em
+$h4--font-size : 1em
+$h5--font-size : .9em
+$h6--font-size : .8em
+
+// ESTIILOS DE ENLACES
+$link--color : initial  // color para los enlaces
+
+// ESTILOS DE PÁRRAFOS
+$p--font-size   : 1em        // Tamaño de fuente
+$p--line-height : 1.5        // Altura de línea
+$p--margin      : 1em        // Separación entre un párrafo y el siguiente
+$p--font-weight : $normal    // Grosor predeterminado de la fuente
+
+// Configuración de grid flexbox
+$columns: 16
+$container: 1200px
+$totalContainer: 100%
+$browser-context: 16
+
+
+// Base (estilos para etiquetas html, sin clases ni id)
+@import "artico"
+
+body
+  font-family: $body--font-family
+  font-size: 16px
+ul
+  margin: 0
+  padding: 0
+
+// Colors Make
+.color-green--1
+  color: #4FA1A0 !important
+.borderColor-green--1
+  border-top-color: #4FA1A0 !important
+.color-red--1
+  color: #FD7373 !important
+.borderColor-red--1
+  border-top-color: #FD7373 !important
+.color-blue--1
+  color: #4CA0E0 !important
+.borderColor-blue--1
+  border-top-color: #4CA0E0 !important
+.color-gray--1
+  color: #7F7F7F !important
+.borderColor-gray--1
+  border-top-color: #7F7F7F !important
+.color-black--1
+  color: #232323 !important
+.borderColor-black--1
+  border-top-color: #232323 !important
+.color-blue--2
+  color: #173343 !important
+.borderColor-blue--2
+  border-top-color: #173343 !important
+.color-blue--3
+  color: #51a3e1 !important
+.borderColor-blue--3
+  border-top-color: #51a3e1 !important
+.content
+  max-width: rem(1120)
+  margin: auto
+  @include respond-to(medium)
+    padding: 0 2rem
+
+.container article
+  max-width: rem(1120)
+  margin: auto
+  padding: 0 2rem
+.auto
+  margin: auto
+h2
+  font-size: rem(28)
+  color: #1F2E4C
+  font-weight: 800
+  @include respond-to(medium)
+    font-size: rem(32)
+sup
+  margin-right: rem(3)
+
+.section-topPage
+  margin-top: rem(58)
+  height: rem(300)
+  width: 100%
+.ALeft
+  text-align: left
+.ARight
+  text-align: right
+.ACenter
+  text-align: center

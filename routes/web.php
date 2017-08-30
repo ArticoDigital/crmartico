@@ -11,10 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home')->middleware('guest');
+Route::get('/auth/facebook/', 'SocialAuthController@facebook');
+Route::get('/auth/facebook/callback', 'SocialAuthController@callback');
+Route::post('/auth/facebook/register','SocialAuthController@register');
+Route::get('logout',function (){Auth::logout(); return redirect('/');});
+
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'],function (){
+    Route::get('/','HomeController@admin');
+    Route::get('/facturas','InvoiceController@index');
+
+});
