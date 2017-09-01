@@ -35,7 +35,7 @@
                                 <input type="date" name="date" placeholder="">
                             </label>
                             <label for="number" class="col-7"><span>N.º de factura</span>
-                                <input type="text" name="number">
+                                <input type="text" name="number" class="alignRight">
                             </label>
                         </div>
                         <div class="row between">
@@ -62,25 +62,25 @@
             <article class="Invoice-borderTop">
                 <h3>Líneas de facturas</h3>
                 <div class="row middle Invoice-product">
-                    <label for="" class="col-6">
+                    <label for="" class="col-4">
                         <span>Producto</span>
                         <input type="text" name="name">
                     </label>
                     <label for="" class="col-2">
                         <span>Cantidad</span>
-                        <input type="text" name="name">
+                        <input type="text" name="name" class="alignRight">
                     </label>
                     <label for="" class="col-2">
                         <span>Unidad</span>
-                        <input type="text" name="name">
+                        <input type="text" name="name" class="alignRight">
                     </label>
                     <label for="" class="col-2">
                         <span>Descuento</span>
-                        <input type="text" name="name">
+                        <input type="text" name="name" class="alignRight">
                     </label>
                     <label for="" class="col-2">
                         <span>Precio (neto)</span>
-                        <input type="text" name="name">
+                        <input type="text" name="name" class="alignRight">
                     </label>
                     <label for="" class="col-2">
                         <span>IVA</span>
@@ -88,17 +88,45 @@
                     </label>
                     <label for="" class="col-2">
                         <span>Importe (neto)</span>
-                        <input type="text" name="name">
+                        <input type="text" name="name"  class="alignRight" readonly>
                     </label>
-                    <label for="" class="col-8">
+                    <label for="" class="col-10">
                         <span>Descripción</span>
                         <input type="text" name="name">
                     </label>
-                    <div class="Invoice-tax">
-                        <input type="checkbox">
+                    <div class="Invoice-tax row">
+                        <input type="checkbox" name="" id="invoicetax">
+                        <label for="invoicetax" class="Invoice-taxLabel">Aplica retenciones a la fuente (11,00
+                            %)</label>
                     </div>
                 </div>
-
+                <div class="row marginTop-20">
+                    <a href="" class="Button Button-Transparent">Agregar un producto</a>
+                </div>
+            </article>
+            <article class="Invoice-borderTop row">
+                <div class="col-9">
+                    <h3>Totales</h3>
+                </div>
+                <div class="col-7 row between Invoice-total">
+                    <div class="col-9">
+                        <p>Retenciones -11 % de 10.000.000,00</p>
+                        <p>IVA 19 % de 10.000.000,00</p>
+                        <p>Retenciones -11 % de 1.000.000,00</p>
+                        <p>Total COP</p>
+                    </div>
+                    <div class="col-7" style="text-align: right">
+                        <p> 1.000.000,00</p>
+                        <p> 190.000,00</p>
+                        <p> -110.000,00</p>
+                        <p> 1.080.000,00</p>
+                    </div>
+                </div>
+            </article>
+            <article class="Invoice-borderTop row">
+                <h3>Términos</h3>
+                <textarea
+                        placeholder="Introduce términos, Resolución de facturación DIAN, instrucciones de pago u otras notas adicionales"></textarea>
             </article>
         </form>
     </section>
