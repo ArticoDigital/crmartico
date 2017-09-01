@@ -11,6 +11,8 @@ class InvoiceController extends Controller
         return view('invoices.index',[
             'invoices' =>auth()->user()->invoices()->paginate(10)
         ]);
-
+    }
+    public function newInvoice(){
+        return view('invoices.newInvoice');
     }
 }

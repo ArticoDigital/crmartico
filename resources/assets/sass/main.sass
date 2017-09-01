@@ -15,31 +15,50 @@
   min-width: rem(70)
   outline: 0
   margin-right: rem(15)
+
 .Button-blue
   color: #fff
   background-color: #488BFC
   border-color: #488BFC
+
+.Button-Transparent
+  font-size: rem(12)
+  text-decoration: none
+  vertical-align: middle
+  text-align: center
+  border-radius: rem(3)
+  cursor: pointer
+  border: rem(1) solid #C3C8CE
+  padding: 0 rem(12)
+  height: rem(32)
+  line-height: rem(32)
+  min-width: rem(70)
+  outline: 0
+  -webkit-font-smoothing: antialiased
+  color: #488BFC
+  background-color: #fff
+  margin: 0 .625rem 0 0
 .Table-header
   background: #f2f4f6
-  border-top: 1px solid #E5E5EB
-  border-bottom: 1px solid #DADAE4
+  border-top: rem(1) solid #E5E5EB
+  border-bottom: rem(1) solid #DADAE4
   color: #646473
-  padding: 0 10px
+  padding: 0 rem(10)
   position: relative
   div
     line-height: rem(20) !important
 .Table-header, .Table-row
   div
-    padding: 0 10px
-    line-height: 28px
-    margin: 10px 0
+    padding: 0 rem(10)
+    line-height: rem(28)
+    margin: rem(10) 0
     text-overflow: ellipsis
-    font-size: 12px
+    font-size: rem(12)
     color: #646473
 .Table-row
-  padding: 0 10px
+  padding: 0 rem(10)
   background-color: #fff
-  border-bottom: 1px solid #E4E5E9
+  border-bottom: rem(1) solid #E4E5E9
   color: #313140
   cursor: pointer
   &:hover
@@ -61,6 +80,12 @@
   outline: 0
 .Table-title
   margin-bottom: .9375rem
+  h1
+    font-size: rem(22)
+    line-height: rem(32)
+    font-weight: 300
+    color: #313140
+    margin: 0
 .TitleBar
   padding: rem(15) 0
   border-bottom: rem(1) solid #E4E5E9
@@ -77,3 +102,49 @@
   &.active, &:hover
     color: #646473
     background: #EAEDF1
+.Invoice
+  border: rem(2) dashed #DFDFEA
+  font-size: rem(13)
+  color: #313140
+  h3
+    font-weight: normal
+    font-size: 1rem
+    line-height: 1.5
+    margin-bottom: rem(8)
+    font-style: italic
+    color: #313140
+  span
+    display: inline-block
+    margin: rem(10) 0 rem(4) 0
+    overflow: hidden
+  input, select, textarea
+    resize: none
+    padding: rem(8)
+    vertical-align: middle
+    border: rem(1) solid #DADAE4
+    background: #fff
+    font-size: rem(12)
+    border-radius: 0
+    color: #313140
+    filter: none
+    zoom: 1
+    white-space: nowrap
+    min-width: rem(10)
+    width: 100%
+    height: rem(38)
+    position: relative
+    outline: none
+  textarea
+    height: rem(86)
+  article
+    padding: rem(28)
+.Invoice-borderTop
+  border-top: rem(2) dashed #DFDFEA
+
+.Invoice-product
+  label
+    margin-right: rem(-1)
+  input
+    height: rem(33)
+
+

@@ -59,7 +59,7 @@
     <meta name="msapplication-TileImage" content="{{asset('img/ico/ms-icon-144x144.png')}}">
     <meta name="theme-color" content="#ffffff">
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,600,600i,700,700i,900,900i|Roboto:300,300i,400,400i,500,500i,700,700i,900,900i|family=Montserrat:900"
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,600,600i,700,700i,900,900i|Roboto:300,300i,400,400i,500,500i,700,700i,900,900i"
           rel="stylesheet">
 
     <!-- Styles -->

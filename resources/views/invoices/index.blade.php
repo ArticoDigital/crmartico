@@ -7,7 +7,7 @@
                 <a class="TitleBar-navLink " href="gastos">Otros ingresos</a>
         </div>
         <div class="Table-title row">
-                <a class="Button Button-blue" href="facturas">Nueva factura</a>
+                <a class="Button Button-blue" href="/admin/facturas/nueva">Nueva factura</a>
                 <input placeholder="Buscar facturas" type="search" class="Search">
         </div>
         <section class="Table">

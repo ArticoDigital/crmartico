@@ -22,5 +22,6 @@ Route::get('logout',function (){Auth::logout(); return redirect('/');});
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'],function (){
     Route::get('/','HomeController@admin');
     Route::get('/facturas','InvoiceController@index');
+    Route::get('/facturas/nueva','InvoiceController@newInvoice');
 
 });
