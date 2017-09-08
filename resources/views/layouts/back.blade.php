@@ -64,7 +64,6 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{asset('css/main.min.css')}}"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.1/sweetalert2.min.css">
     @yield('styles')
 </head>
 <body id="#body" class="@yield('classBody')">
@@ -141,9 +140,6 @@
             <li><a href="">
                     <svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
-                        <desc>Created with Sketch.</desc>
-                        <defs></defs>
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <g id="Artboard" transform="translate(-510.000000, -68.000000)">
                                 <g id="noun_112619_cc-copy" transform="translate(511.000000, 69.000000)">
@@ -187,13 +183,9 @@
                         </g>
                     </svg>
                     INFORMES</a></li>
-            <li><a href="">
-
+            <li><a href="/admin/clientes">
                     <svg width="22px" height="23px" viewBox="0 0 22 23" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
-                        <desc>Created with Sketch.</desc>
-                        <defs></defs>
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <g id="Artboard" transform="translate(-552.000000, -69.000000)" fill-rule="nonzero">
                                 <g id="contacts" transform="translate(552.000000, 69.000000)">
@@ -212,12 +204,9 @@
                         </g>
                     </svg>
                     CONTACTOS</a></li>
-            <li><a href="">
+            <li><a href="/admin/productos">
                     <svg width="19px" height="23px" viewBox="0 0 19 23" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
-                        <desc>Created with Sketch.</desc>
-                        <defs></defs>
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <g id="Artboard" transform="translate(-636.000000, -69.000000)">
                                 <g id="noun_1134896_cc" transform="translate(636.000000, 69.000000)">
@@ -265,7 +254,6 @@
 </main>
 <footer class="Footer scrollTarget" id="#redes-sociales">
 </footer>
-<script defer src="https://cdn.jsdelivr.net/sweetalert2/6.6.1/sweetalert2.min.js"></script>
 @yield('scripts')
 </body>
 </html>

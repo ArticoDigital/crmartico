@@ -1,6 +1,12 @@
 @import "config"
+@import "theme/autocomplete"
 @import "theme/login"
-
+.Errors
+  background: #fd7373
+  color: #ffffff
+  padding: 1.25rem
+  line-height: 2
+  font-size: 1rem
 .marginTop-20
   margin-top: rem(20)
 .alignRight
@@ -19,6 +25,11 @@
   min-width: rem(70)
   outline: 0
   margin-right: rem(15)
+  display: inline-block
+.Button-red
+  color: #fff
+  background-color: #ff5f5f
+  border-color: #ff5f5f
 
 .Button-blue
   color: #fff
@@ -82,6 +93,7 @@
   border-radius: 0
   color: #313140
   outline: 0
+
 .Table-title
   margin-bottom: .9375rem
   h1
@@ -90,6 +102,8 @@
     font-weight: 300
     color: #313140
     margin: 0
+  .row .Button:last-child
+    margin-right: 0
 .TitleBar
   padding: rem(15) 0
   border-bottom: rem(1) solid #E4E5E9
@@ -139,6 +153,9 @@
     height: rem(38)
     position: relative
     outline: none
+    appearance: none
+
+
   textarea
     height: rem(86)
   article
@@ -201,3 +218,20 @@ input[readonly]
       line-height: rem(44)
       font-size: rem(18)
       font-weight: 600
+
+label.Label-select
+  position: relative
+  &:after
+    content: '↓'
+    position: absolute
+    top: 45px
+    right: 0
+    bottom: 0
+    padding: 0 10px
+    color: #9c9c9c
+    pointer-events: none
+    font-size: 10px
+  & select:focus
+    border-color: #a5dc86
+    outline: 0
+

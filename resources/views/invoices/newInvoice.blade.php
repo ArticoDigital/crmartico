@@ -22,7 +22,8 @@
                     <div class="col-7">
                         <label for="client">
                             <span>Cliente</span>
-                            <input type="text" name="client" placeholder="Introduce el cliente">
+                            <input type="text" id="customers" placeholder="Introduce el cliente">
+                            <input type="hidden" name="customer_id" id="customer_id">
                         </label>
                         <label for="address"><span>Dirección</span>
                             <textarea name="address"
@@ -61,43 +62,84 @@
             </article>
             <article class="Invoice-borderTop">
                 <h3>Líneas de facturas</h3>
-                <div class="row middle Invoice-product">
-                    <label for="" class="col-4">
-                        <span>Producto</span>
-                        <input type="text" name="name">
-                    </label>
-                    <label for="" class="col-2">
-                        <span>Cantidad</span>
-                        <input type="text" name="name" class="alignRight">
-                    </label>
-                    <label for="" class="col-2">
-                        <span>Unidad</span>
-                        <input type="text" name="name" class="alignRight">
-                    </label>
-                    <label for="" class="col-2">
-                        <span>Descuento</span>
-                        <input type="text" name="name" class="alignRight">
-                    </label>
-                    <label for="" class="col-2">
-                        <span>Precio (neto)</span>
-                        <input type="text" name="name" class="alignRight">
-                    </label>
-                    <label for="" class="col-2">
-                        <span>IVA</span>
-                        <input type="text" name="name">
-                    </label>
-                    <label for="" class="col-2">
-                        <span>Importe (neto)</span>
-                        <input type="text" name="name"  class="alignRight" readonly>
-                    </label>
-                    <label for="" class="col-10">
-                        <span>Descripción</span>
-                        <input type="text" name="name">
-                    </label>
-                    <div class="Invoice-tax row">
-                        <input type="checkbox" name="" id="invoicetax">
-                        <label for="invoicetax" class="Invoice-taxLabel">Aplica retenciones a la fuente (11,00
-                            %)</label>
+                <div id="items">
+                    <div class="row middle Invoice-product">
+                        <label for="" class="col-4">
+                            <span>Producto</span>
+                            <input type="text" name="name">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Cantidad</span>
+                            <input type="text" name="name" class="alignRight">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Unidad</span>
+                            <input type="text" name="name" class="alignRight">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Descuento</span>
+                            <input type="text" name="name" class="alignRight">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Precio (neto)</span>
+                            <input type="text" name="name" class="alignRight">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>IVA</span>
+                            <input type="text" name="name">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Importe (neto)</span>
+                            <input type="text" name="name" class="alignRight" readonly>
+                        </label>
+                        <label for="" class="col-10">
+                            <span>Descripción</span>
+                            <input type="text" name="name">
+                        </label>
+                        <div class="Invoice-tax row">
+                            <input type="checkbox" name="" id="invoicetax">
+                            <label for="invoicetax" class="Invoice-taxLabel">Aplica retenciones a la fuente (11,00
+                                %)</label>
+                        </div>
+                    </div>
+                    <div class="row middle Invoice-product">
+                        <label for="" class="col-4">
+                            <span>Producto</span>
+                            <input type="text" name="name">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Cantidad</span>
+                            <input type="text" name="name" class="alignRight">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Unidad</span>
+                            <input type="text" name="name" class="alignRight">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Descuento</span>
+                            <input type="text" name="name" class="alignRight">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Precio (neto)</span>
+                            <input type="text" name="name" class="alignRight">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>IVA</span>
+                            <input type="text" name="name">
+                        </label>
+                        <label for="" class="col-2">
+                            <span>Importe (neto)</span>
+                            <input type="text" name="name" class="alignRight" readonly>
+                        </label>
+                        <label for="" class="col-10">
+                            <span>Descripción</span>
+                            <input type="text" name="name">
+                        </label>
+                        <div class="Invoice-tax row">
+                            <input type="checkbox" name="" id="invoicetax">
+                            <label for="invoicetax" class="Invoice-taxLabel">Aplica retenciones a la fuente (11,00
+                                %)</label>
+                        </div>
                     </div>
                 </div>
                 <div class="row marginTop-20">
@@ -125,12 +167,55 @@
             </article>
             <article class="Invoice-borderTop row">
                 <h3>Términos</h3>
-                <textarea
-                        placeholder="Introduce términos, Resolución de facturación DIAN, instrucciones de pago u otras notas adicionales"></textarea>
+                <textarea placeholder="Introduce términos, Resolución de facturación DIAN,
+                instrucciones de pago u otras notas adicionales"></textarea>
             </article>
         </form>
     </section>
 
 @endsection
 @section('scripts')
+    <script src="{{url('js/auto-complete.min.js')}}"></script>
+    <script src="{{url('js/sortable.min.js')}}"></script>
+    <script>
+        var el = document.getElementById('items');
+        var sortable = Sortable.create(el, {
+            animation: 150,
+           // handle: '.glyphicon-move'
+        });
+
+        const customers = document.querySelector('#customers'),
+            customersId = document.querySelector('#customer_id');
+        new autoComplete({
+            selector: '#customers',
+            source: function (term, suggest) {
+                term = term.toLowerCase();
+                var choices = [['Lilipink', 1], ['Avena Cubana', '2'], ['Brasil', 'br'], ['Bulgaria', 'bg']];
+                var suggestions = [];
+                for (var i = 0; i < choices.length; i++)
+                    if (~(choices[i][0] + ' ' + choices[i][1]).toLowerCase().indexOf(term))
+                        suggestions.push(choices[i]);
+                suggest(suggestions);
+            },
+            renderItem: function (item, search) {
+                search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;');
+                var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+                customersId.value = '';
+                return '<div class="autocomplete-suggestion" ' +
+                    'data-name="' + item[0] + '" ' +
+                    'data-id="' + item[1] + '"> ' + item[0].replace(re, "<b>$1</b>") + '</div>';
+            },
+            onSelect: function (e, term, item) {
+                customers.value = item.getAttribute('data-name');
+                customersId.value = item.getAttribute('data-id');
+            }
+        });
+        customers.addEventListener('blur', function () {
+            if (!customersId.value)
+                customers.value = "";
+            console.log();
+        });
+
+
+    </script>
 @endsection
