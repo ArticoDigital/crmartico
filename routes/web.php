@@ -8,5 +8,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     require __DIR__ . '/admin/product.php';
     require __DIR__ . '/admin/customer.php';
     require __DIR__ . '/admin/provider.php';
+    require __DIR__ . '/admin/expense.php';
+    require __DIR__ . '/admin/income.php';
 
 });

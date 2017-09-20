@@ -188,6 +188,7 @@
             customersId = document.querySelector('#customer_id');
         new autoComplete({
             selector: '#customers',
+            minChars: 2,
             source: function (term, suggest) {
                 term = term.toLowerCase();
                 var choices = [['Lilipink', 1], ['Avena Cubana', '2'], ['Brasil', 'br'], ['Bulgaria', 'bg']];

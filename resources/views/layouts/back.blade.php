@@ -137,7 +137,7 @@
                         </g>
                     </svg>
                     PRESUPUESTOS</a></li>
-            <li><a href="">
+            <li><a href="/admin/gastos">
                     <svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

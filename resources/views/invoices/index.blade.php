@@ -9,7 +9,7 @@
 
     <div class="col-16 row TitleBar">
         <a class="TitleBar-navLink active" href="facturas">Facturas</a>
-        <a class="TitleBar-navLink " href="gastos">Otros ingresos</a>
+        <a class="TitleBar-navLink " href="/admin/ingresos">Otros ingresos</a>
     </div>
     <div class="Table-title row">
         <a class="Button Button-blue" href="/admin/facturas/nueva">Nueva factura</a>

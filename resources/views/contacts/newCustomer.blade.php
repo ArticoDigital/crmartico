@@ -1,4 +1,4 @@
-@extends('layouts.back')
+    @extends('layouts.back')
 @section('title', 'Agencia de Publicidad en Bogotá')
 
 @section('content')

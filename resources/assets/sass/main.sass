@@ -7,10 +7,17 @@
   padding: 1.25rem
   line-height: 2
   font-size: 1rem
+
 .marginTop-20
-  margin-top: rem(20)
+  margin-top: rem(20) !important
+
 .alignRight
   text-align: right
+button.reset
+  background: none
+  border: none
+  height: rem(20)
+  cursor: pointer
 .Button
   font-size: rem(12)
   text-decoration: none
@@ -26,6 +33,7 @@
   outline: 0
   margin-right: rem(15)
   display: inline-block
+
 .Button-red
   color: #fff
   background-color: #ff5f5f
@@ -53,6 +61,7 @@
   color: #488BFC
   background-color: #fff
   margin: 0 .625rem 0 0
+
 .Table-header
   background: #f2f4f6
   border-top: rem(1) solid #E5E5EB
@@ -62,6 +71,7 @@
   position: relative
   div
     line-height: rem(20) !important
+
 .Table-header, .Table-row
   div
     padding: 0 rem(10)
@@ -70,6 +80,7 @@
     text-overflow: ellipsis
     font-size: rem(12)
     color: #646473
+
 .Table-row
   padding: 0 rem(10)
   background-color: #fff
@@ -79,8 +90,6 @@
   &:hover
     background-color: #f2f4f6
     color: #313140
-
-
 
 .Search
   width: rem(240)
@@ -104,10 +113,12 @@
     margin: 0
   .row .Button:last-child
     margin-right: 0
+
 .TitleBar
   padding: rem(15) 0
   border-bottom: rem(1) solid #E4E5E9
   margin-bottom: rem(15)
+
 .TitleBar-navLink
   font-size: rem(12)
   padding: 0 rem(10)
@@ -120,6 +131,7 @@
   &.active, &:hover
     color: #646473
     background: #EAEDF1
+
 .Invoice
   border: rem(2) dashed #DFDFEA
   font-size: rem(13)
@@ -155,11 +167,11 @@
     outline: none
     appearance: none
 
-
   textarea
     height: rem(86)
   article
     padding: rem(28)
+
 .Invoice-borderTop
   border-top: rem(2) dashed #DFDFEA
 
@@ -168,9 +180,10 @@
     padding-right: rem(5)
   input
     height: rem(33)
+
 input[readonly]
-  background: #f2f4f6!important
-  border: 1px solid #D9D6D6!important
+  background: #f2f4f6 !important
+  border: 1px solid #D9D6D6 !important
   color: #212326
 
 .Invoice-taxLabel
@@ -235,3 +248,50 @@ label.Label-select
     border-color: #a5dc86
     outline: 0
 
+.tingle-modal-box__footer
+  border-radius: 0 0 8px 8px
+  padding: 10px 20px !important
+  text-align: right
+
+.tingle-modal-box__content
+  font-size: .8125rem
+  color: #313140
+  label
+    padding-right: rem(5)
+  input
+    resize: none
+    padding: rem(8)
+    vertical-align: middle
+    border: rem(1) solid #DADAE4
+    background: #fff
+    font-size: rem(12)
+    border-radius: 0
+    color: #313140
+    filter: none
+    zoom: 1
+    white-space: nowrap
+    min-width: rem(10)
+    width: 100%
+    height: rem(38)
+    position: relative
+    outline: none
+    appearance: none
+  span
+    display: inline-block
+    margin: rem(10) 0 rem(4) 0
+    overflow: hidden
+
+.Expenses-partials
+  margin: rem(40) 0
+  img
+    max-width: rem(20)
+
+.Expenses-partial
+  border: rem(1) solid #ddd
+  cursor: default
+  min-height: rem(50)
+  margin-bottom: rem(-1)
+  background: #F8F9FA
+  line-height: 1.5
+  color: #313140
+  font-size: rem(12)
