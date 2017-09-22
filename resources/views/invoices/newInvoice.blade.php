@@ -20,15 +20,21 @@
                 <h3>Clientes y fechas</h3>
                 <div class="row arrow between">
                     <div class="col-7">
+
                         <label for="client">
                             <span>Cliente</span>
-                            <input type="text" id="customers" placeholder="Introduce el cliente">
-                            <input type="hidden" name="customer_id" id="customer_id">
+                            <input type="text" name="customer" id="customer" placeholder=""
+                                   value="{{old('customer')}}">
+                            <input type="hidden" name="customer_id" id="customerId" value="{{old('customer_id')}}">
+                            <a class=" marginTop-20 Button Button-Transparent" href="/admin/clientes/nuevo">
+                                Crear un cliente</a>
                         </label>
-                        <label for="address"><span>Dirección</span>
-                            <textarea name="address"
-                                      placeholder="Introduce la dirección completa del cliente"></textarea>
-                        </label>
+                        <div class=" marginTop-20">
+                            <label for="address"><span>Dirección</span>
+                                <textarea name="address" id="address"
+                                          placeholder="Introduce la dirección completa del cliente"></textarea>
+                            </label>
+                        </div>
                     </div>
                     <div class="col-7">
                         <div class="row between">
@@ -63,58 +69,18 @@
             <article class="Invoice-borderTop">
                 <h3>Líneas de facturas</h3>
                 <div id="items">
+
                     <div class="row middle Invoice-product">
-                        <label for="" class="col-4">
+                        <label for="" class="col-6">
                             <span>Producto</span>
-                            <input type="text" name="name">
+                            <input id="ok" type="text" name="name">
+                            <input id="okId" type="hidden" name="name">
                         </label>
                         <label for="" class="col-2">
                             <span>Cantidad</span>
                             <input type="text" name="name" class="alignRight">
                         </label>
-                        <label for="" class="col-2">
-                            <span>Unidad</span>
-                            <input type="text" name="name" class="alignRight">
-                        </label>
-                        <label for="" class="col-2">
-                            <span>Descuento</span>
-                            <input type="text" name="name" class="alignRight">
-                        </label>
-                        <label for="" class="col-2">
-                            <span>Precio (neto)</span>
-                            <input type="text" name="name" class="alignRight">
-                        </label>
-                        <label for="" class="col-2">
-                            <span>IVA</span>
-                            <input type="text" name="name">
-                        </label>
-                        <label for="" class="col-2">
-                            <span>Importe (neto)</span>
-                            <input type="text" name="name" class="alignRight" readonly>
-                        </label>
-                        <label for="" class="col-10">
-                            <span>Descripción</span>
-                            <input type="text" name="name">
-                        </label>
-                        <div class="Invoice-tax row">
-                            <input type="checkbox" name="" id="invoicetax">
-                            <label for="invoicetax" class="Invoice-taxLabel">Aplica retenciones a la fuente (11,00
-                                %)</label>
-                        </div>
-                    </div>
-                    <div class="row middle Invoice-product">
-                        <label for="" class="col-4">
-                            <span>Producto</span>
-                            <input type="text" name="name">
-                        </label>
-                        <label for="" class="col-2">
-                            <span>Cantidad</span>
-                            <input type="text" name="name" class="alignRight">
-                        </label>
-                        <label for="" class="col-2">
-                            <span>Unidad</span>
-                            <input type="text" name="name" class="alignRight">
-                        </label>
+
                         <label for="" class="col-2">
                             <span>Descuento</span>
                             <input type="text" name="name" class="alignRight">
@@ -171,51 +137,83 @@
                 instrucciones de pago u otras notas adicionales"></textarea>
             </article>
         </form>
+        <datalist id="customers">
+            @foreach($customers as $customer)
+                <option
+                        data-id="{{$customer->id}}"
+                        data-address="{{$customer->address}}" value="{{$customer->name_customer}}">
+                </option>
+            @endforeach
+        </datalist>
+        <datalist id="productsList">
+            @foreach($products as $product)
+                <option
+                        data-id="{{$product->id}}"
+                        data-name="{{$product->name}}"
+                        data-net_price="{{$product->net_price}}"
+                        data-description="{{$product->description}}"
+                        data-iva="{{$product->iva}}"
+                >
+                </option>
+
+
+            @endforeach
+        </datalist>
     </section>
 
 @endsection
 @section('scripts')
+
     <script src="{{url('js/auto-complete.min.js')}}"></script>
+    <script src="{{url('js/CompleteGenerateV2.js')}}"></script>
     <script src="{{url('js/sortable.min.js')}}"></script>
     <script>
         var el = document.getElementById('items');
         var sortable = Sortable.create(el, {
             animation: 150,
-           // handle: '.glyphicon-move'
+            // handle: '.glyphicon-move'
         });
 
-        const customers = document.querySelector('#customers'),
-            customersId = document.querySelector('#customer_id');
-        new autoComplete({
-            selector: '#customers',
-            minChars: 2,
-            source: function (term, suggest) {
-                term = term.toLowerCase();
-                var choices = [['Lilipink', 1], ['Avena Cubana', '2'], ['Brasil', 'br'], ['Bulgaria', 'bg']];
-                var suggestions = [];
-                for (var i = 0; i < choices.length; i++)
-                    if (~(choices[i][0] + ' ' + choices[i][1]).toLowerCase().indexOf(term))
-                        suggestions.push(choices[i]);
-                suggest(suggestions);
-            },
-            renderItem: function (item, search) {
-                search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;');
-                var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-                customersId.value = '';
-                return '<div class="autocomplete-suggestion" ' +
-                    'data-name="' + item[0] + '" ' +
-                    'data-id="' + item[1] + '"> ' + item[0].replace(re, "<b>$1</b>") + '</div>';
-            },
-            onSelect: function (e, term, item) {
-                customers.value = item.getAttribute('data-name');
-                customersId.value = item.getAttribute('data-id');
-            }
-        });
-        customers.addEventListener('blur', function () {
-            if (!customersId.value)
-                customers.value = "";
-            console.log();
-        });
+        completeGenerate(
+            {
+                selector: '#customer',
+                elements: '#customers',
+                selectorId: '#customerId',
+                'inputsValue': ['value', 'data-id', 'data-address'],
+                onSelect: function (e, term, item) {
+                    document.querySelector('#customer').value = item.getAttribute('data-name');
+                    document.querySelector('#customerId').value = item.getAttribute('data-id');
+                    document.querySelector('#address').value = item.getAttribute('data-address');
+
+                },
+                onHtml: function (item, re) {
+                    return '<div class="autocomplete-suggestion" ' +
+                        'data-address="' + item[2] + '" ' +
+                        'data-name="' + item[0] + '" ' +
+                        'data-id="' + item[1] + '"> ' + item[0].replace(re, "<b>$1</b>") + '</div>';
+                },
+            });
+
+
+        completeGenerate(
+            {
+                selector: '#ok',
+                elements: '#productsList',
+                selectorId: '#okId',
+                'inputsValue': ['data-name', 'data-id'],
+                onSelect: function (e, term, item) {
+                    document.querySelector('#ok').value = item.getAttribute('data-name');
+                    document.querySelector('#okId').value = item.getAttribute('data-id');
+
+                },
+                onHtml: function (item, re) {
+                    console.log(item)
+                    return '<div class="autocomplete-suggestion" ' +
+                        'data-address="' + item[2] + '" ' +
+                        'data-name="' + item[0] + '" ' +
+                        'data-id="' + item[1] + '"> ' + item[0].replace(re, "<b>$1</b>") + '</div>';
+                },
+            });
 
 
     </script>

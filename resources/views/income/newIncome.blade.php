@@ -195,28 +195,28 @@
             source: function (term, suggest) {
                 term = term.toLowerCase();
                 var choices = customerArray;
-        var suggestions = [];
-        for (var i = 0; i < choices.length; i++)
-            if (~(choices[i][0] + ' ' + choices[i][1]).toLowerCase().indexOf(term))
-                suggestions.push(choices[i]);
-        suggest(suggestions);
-        },
-        renderItem: function (item, search) {
-            search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;');
-            var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-            customerId.value = '';
-            return '<div class="autocomplete-suggestion" ' +
-                'data-name="' + item[0] + '" ' +
-                'data-id="' + item[1] + '"> ' + item[0].replace(re, "<b>$1</b>") + '</div>';
-        }
-        ,
-        onSelect: function (e, term, item) {
-            customer.value = item.getAttribute('data-name');
-            customerId.value = item.getAttribute('data-id');
+                var suggestions = [];
+                for (var i = 0; i < choices.length; i++)
+                    if (~(choices[i][0] + ' ' + choices[i][1]).toLowerCase().indexOf(term))
+                        suggestions.push(choices[i]);
+                suggest(suggestions);
+            },
+            renderItem: function (item, search) {
+                search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;');
+                var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+                customerId.value = '';
+                return '<div class="autocomplete-suggestion" ' +
+                    'data-name="' + item[0] + '" ' +
+                    'data-id="' + item[1] + '"> ' + item[0].replace(re, "<b>$1</b>") + '</div>';
+            }
+            ,
+            onSelect: function (e, term, item) {
+                customer.value = item.getAttribute('data-name');
+                customerId.value = item.getAttribute('data-id');
 
-        }
-        })
-        ;
+            }
+        });
+
         customer.addEventListener('blur', function () {
             if (!customerId.value) {
                 customer.value = "";
