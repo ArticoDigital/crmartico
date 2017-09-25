@@ -70,46 +70,49 @@
                 <h3>Líneas de facturas</h3>
                 <div id="items">
 
-                    <div class="row middle Invoice-product">
-                        <label for="" class="col-6">
+                    <div class="row middle Invoice-product products">
+                        <div class="move">
+                            <img src="{{url('/img/move.png')}}" alt="">
+                        </div>
+                        <label for="product0Name" class="col-6">
                             <span>Producto</span>
-                            <input id="ok" type="text" name="name">
-                            <input id="okId" type="hidden" name="name">
+                            <input id="product0Name" type="text" name="producto[0][name]">
+                            <input id="product0Id" type="hidden" name="producto[0][product_id]">
                         </label>
-                        <label for="" class="col-2">
+                        <label for="producto0Quantity" class="col-2">
                             <span>Cantidad</span>
-                            <input type="text" name="name" class="alignRight">
+                            <input id="producto0Quantity" type="text" name="producto[0][quantity]" class="alignRight">
                         </label>
 
-                        <label for="" class="col-2">
+                        <label for="producto0Discount" class="col-2">
                             <span>Descuento</span>
-                            <input type="text" name="name" class="alignRight">
+                            <input type="text" id="producto0Discount" name="producto[0][discount]" class="alignRight">
                         </label>
-                        <label for="" class="col-2">
+                        <label for="producto0Net_price" class="col-2">
                             <span>Precio (neto)</span>
-                            <input type="text" name="name" class="alignRight">
+                            <input id="producto0Net_price" type="text" name="producto[0][net_price]" class="alignRight">
                         </label>
-                        <label for="" class="col-2">
+                        <label for="producto0Iva" class="col-2">
                             <span>IVA</span>
-                            <input type="text" name="name">
+                            <input id="producto0Iva" type="text" name="producto[0][iva]">
                         </label>
                         <label for="" class="col-2">
                             <span>Importe (neto)</span>
-                            <input type="text" name="name" class="alignRight" readonly>
+                            <input type="text" class="alignRight" readonly>
                         </label>
-                        <label for="" class="col-10">
+                        <label for="producto0Description" class="col-10">
                             <span>Descripción</span>
-                            <input type="text" name="name">
+                            <input id="producto0Description" type="text" name="producto[0][description]">
                         </label>
                         <div class="Invoice-tax row">
-                            <input type="checkbox" name="" id="invoicetax">
+                            <input type="checkbox" name="producto[0][withholding_tax]" id="invoicetax">
                             <label for="invoicetax" class="Invoice-taxLabel">Aplica retenciones a la fuente (11,00
                                 %)</label>
                         </div>
                     </div>
                 </div>
-                <div class="row marginTop-20">
-                    <a href="" class="Button Button-Transparent">Agregar un producto</a>
+                <div class="row marginTop-20" id="Buttons">
+                    <a id="addProduct" class="Button Button-Transparent">Agregar un producto</a>
                 </div>
             </article>
             <article class="Invoice-borderTop row">
@@ -150,7 +153,7 @@
                 <option
                         data-id="{{$product->id}}"
                         data-name="{{$product->name}}"
-                        data-net_price="{{$product->net_price}}"
+                        data-price="{{$product->net_price}}"
                         data-description="{{$product->description}}"
                         data-iva="{{$product->iva}}"
                 >
@@ -171,7 +174,7 @@
         var el = document.getElementById('items');
         var sortable = Sortable.create(el, {
             animation: 150,
-            // handle: '.glyphicon-move'
+            handle: '.move'
         });
 
         completeGenerate(
@@ -197,24 +200,153 @@
 
         completeGenerate(
             {
-                selector: '#ok',
+                selector: '#product0Name',
                 elements: '#productsList',
-                selectorId: '#okId',
-                'inputsValue': ['data-name', 'data-id'],
+                selectorId: '#product0Id',
+                'inputsValue': ['data-name', 'data-id', 'data-price', 'data-description', 'data-iva'],
                 onSelect: function (e, term, item) {
-                    document.querySelector('#ok').value = item.getAttribute('data-name');
-                    document.querySelector('#okId').value = item.getAttribute('data-id');
-
+                    document.querySelector('#product0Name').value = item.getAttribute('data-name');
+                    document.querySelector('#product0Id').value = item.getAttribute('data-id');
+                    document.querySelector('#producto0Net_price').value = item.getAttribute('data-price');
+                    document.querySelector('#producto0Description').value = item.getAttribute('data-description');
+                    document.querySelector('#producto0Iva').value = item.getAttribute('data-iva');
                 },
                 onHtml: function (item, re) {
-                    console.log(item)
                     return '<div class="autocomplete-suggestion" ' +
-                        'data-address="' + item[2] + '" ' +
+                        'data-description="' + item[3] + '" ' +
                         'data-name="' + item[0] + '" ' +
+                        'data-price="' + item[2] + '" ' +
+                        'data-iva="' + item[4] + '" ' +
                         'data-id="' + item[1] + '"> ' + item[0].replace(re, "<b>$1</b>") + '</div>';
                 },
+                clear: function (e, t) {
+                    if (document.querySelector(t.opts.selectorId).value == '') {
+                        document.querySelector('#product0Name').value = '';
+                        document.querySelector('#producto0Net_price').value = '';
+                        document.querySelector('#producto0Description').value = '';
+                        document.querySelector('#producto0Iva').value = '';
+                    }
+                }
             });
 
+        var item = 1;
+        const items = document.querySelector('#items'),
+            buttons = document.querySelector('#Buttons');
+        document.querySelector('#addProduct').addEventListener('click', function (e) {
+            e.preventDefault();
+            var parser = new DOMParser();
+            var domString = ' <div class="row middle Invoice-product products" id="product-' + item + '">' +
+                '<div class="move">' +
+                '<img src="/img/move.png" alt="">' +
+                '</div>' +
 
+                '<label for="product' + item + 'Name" class="col-6">' +
+                ' <span>Producto</span>' +
+                '<input id="product' + item + 'Name" type="text" name="producto[' + item + '][name]">' +
+                '<input id="product' + item + 'Id" type="hidden" name="producto[' + item + '][product_id]">' +
+                '</label>' +
+                ' <label for="producto' + item + 'Quantity" class="col-2">' +
+                ' <span>Cantidad</span>' +
+                '<input id="producto' + item + 'Quantity" type="text" name="producto[' + item + '][quantity]" class="alignRight">' +
+                '</label>' +
+
+                '<label for="producto' + item + 'Discount" class="col-2">' +
+                '<span>Descuento</span>' +
+                '<input type="text" id="producto' + item + 'Discount" name="producto[' + item + '][discount]" class="alignRight">' +
+                '</label>' +
+                '<label for="producto' + item + 'Net_price" class="col-2">' +
+                '<span>Precio (neto)</span>' +
+                '<input id="producto' + item + 'Net_price" type="text" name="producto[' + item + '][net_price]" class="alignRight">' +
+                '</label>' +
+                '<label for="producto' + item + 'Iva" class="col-2">' +
+                '<span>IVA</span>' +
+                '<input id="producto' + item + 'Iva" type="text" name="producto[' + item + '][iva]">' +
+                '</label>' +
+                '<label for="" class="col-2">' +
+                '<span>Importe (neto)</span>' +
+                '<input type="text" class="alignRight" readonly>' +
+                '</label>' +
+                '<label for="producto' + item + 'Description" class="col-10">' +
+                '<span>Descripción</span>' +
+                '<input id="producto' + item + 'Description" type="text" name="producto[' + item + '][description]">' +
+                '</label>' +
+                '<div class="Invoice-tax row">' +
+                '<input type="checkbox" name="producto[' + item + '][withholding_tax]" id="invoicetax">' +
+                '<label for="invoicetax" class="Invoice-taxLabel">Aplica retenciones a la fuente (11,00' +
+                '%)</label>' +
+                '</div>' +
+                '</div>';
+            var html = parser.parseFromString(domString, 'text/html');
+            items.append(html.body.firstChild);
+
+            completeGenerate(
+                {
+                    selector: '#product' + item + 'Name',
+                    elements: '#productsList',
+                    selectorId: '#product' + item + 'Id',
+                    'inputsValue': ['data-name', 'data-id', 'data-price', 'data-description', 'data-iva'],
+                    number: item,
+                    onSelect: function (e, term, item, number) {
+                        document.querySelector('#product' + number + 'Name').value = item.getAttribute('data-name');
+                        document.querySelector('#product' + number + 'Id').value = item.getAttribute('data-id');
+                        document.querySelector('#producto' + number + 'Net_price').value = item.getAttribute('data-price');
+                        document.querySelector('#producto' + number + 'Description').value = item.getAttribute('data-description');
+                        document.querySelector('#producto' + number + 'Iva').value = item.getAttribute('data-iva');
+                    },
+                    onHtml: function (item, re) {
+                        return '<div class="autocomplete-suggestion" ' +
+                            'data-description="' + item[3] + '" ' +
+                            'data-name="' + item[0] + '" ' +
+                            'data-price="' + item[2] + '" ' +
+                            'data-iva="' + item[4] + '" ' +
+                            'data-id="' + item[1] + '"> ' + item[0].replace(re, "<b>$1</b>") + '</div>';
+                    },
+                    clear: function (e, t, number) {
+                        if (document.querySelector(t.opts.selectorId).value == '') {
+                            document.querySelector('#product' + number + 'Name').value = '';
+                            document.querySelector('#producto' + number + 'Net_price').value = '';
+                            document.querySelector('#producto' + number + 'Description').value = '';
+                            document.querySelector('#producto' + number + 'Iva').value = '';
+                        }
+                    }
+                });
+            item++;
+            actionsClass(document.querySelectorAll('.move'), function (el) {
+                el.classList.add('active')
+                console.log(el)
+            })
+            if (item == 2) {
+
+                var buttonDelete = document.createElement('button');
+                buttonDelete.innerText = 'Eliminar producto'
+                buttonDelete.className = "Button Button-Transparent"
+                buttonDelete.onclick = deleteProduct;
+                buttonDelete.id = "deleteProduct";
+                buttons.append(buttonDelete);
+            }
+        })
+
+        function deleteProduct(e) {
+            e.preventDefault();
+            item--;
+            var elem = document.querySelector("#product-" + item);
+            elem.remove();
+            if (item == 1) {
+                document.getElementById("deleteProduct").remove();
+                actionsClass(document.querySelectorAll('.move'), function (el) {
+                    el.classList.remove('active')
+                })
+            }
+        }
+
+        if (document.getElementById('deleteProduct') != null) {
+            document.getElementById("deleteProduct").addEventListener('click', deleteProduct)
+        }
+        function actionsClass(array, callback, scope) {
+
+            [].map.call(array, function (el) {
+                callback.call(scope, el, array[el]);
+            });
+        };
     </script>
 @endsection

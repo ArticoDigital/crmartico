@@ -31,16 +31,24 @@
             inputsValue: [],
             onSelect: null,
             onHtml: null,
+            clear: null,
+            number: 0
         };
         this.opts = extend({}, defaults, options);
 
         this.init();
     }
-
+    AutoComplete.prototype.clear = function(e) {
+        return this.opts.clear(e,this,this.opts.number)
+    }
     AutoComplete.prototype.init = function () {
         this.autocomplete();
+        const clear = this.clear.bind(this)
+        document.querySelector(this.opts.selector).addEventListener('blur',clear);
         _bindEvents.call(this);
     };
+
+
 
 
     AutoComplete.prototype.elements = function () {
@@ -68,7 +76,7 @@
     }
 
      AutoComplete.prototype.onSelect = function(e, term, item) {
-         return this.opts.onSelect(e, term, item);
+         return this.opts.onSelect(e, term, item, this.opts.number);
      }
 
     AutoComplete.prototype.autocomplete = function (a) {
