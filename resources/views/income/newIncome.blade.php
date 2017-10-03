@@ -9,7 +9,7 @@
         <h1>Nuevo ingreso</h1>
 
         <div class="row">
-            <button id="submit" href="" class="Button Button-blue">Guardar</button>
+                <button id="submit" href="" class="Button Button-blue">Guardar</button>
         </div>
     </div>
     <section class="Invoice">

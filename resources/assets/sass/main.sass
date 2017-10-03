@@ -87,6 +87,10 @@ button.reset
   border-bottom: rem(1) solid #E4E5E9
   color: #313140
   cursor: pointer
+
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
   &:hover
     background-color: #f2f4f6
     color: #313140
@@ -180,6 +184,13 @@ button.reset
     padding-right: rem(5)
   input
     height: rem(33)
+  .Label-select
+    select
+      height: rem(33)
+    &:after
+      top: rem(48)
+
+
 
 input[readonly]
   background: #f2f4f6 !important
@@ -297,8 +308,8 @@ label.Label-select
   font-size: rem(12)
 .move
   position: absolute
-  top: rem(42)
-  left: rem(-22)
+  top: rem(56)
+  left: rem(-18)
   display: none
   cursor: move
   cursor: -webkit-grabbing
@@ -306,3 +317,7 @@ label.Label-select
     display: block
 .products
   position: relative
+  padding: rem(10)
+.sortable
+  box-shadow: rgb(158, 158, 158) rem(8) rem(8) rem(20) rem(-8)
+

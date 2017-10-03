@@ -6,7 +6,7 @@
         <a class="TitleBar-navLink " href="/admin/facturas"> ← Facturas</a>
     </div>
     <div class="Table-title row between middle">
-        <h1>Nueva factura</h1>
+        <h1>Factura</h1>
         <div class="row">
             <a class="Button-Transparent">Mostrar</a>
             <a id="submit" class="Button Button-blue">Guardar</a>
@@ -33,22 +33,23 @@
                         <label for="client">
                             <span>Cliente</span>
                             <input type="text" name="customer" id="customer" placeholder=""
-                                   value="{{old('customer')}}">
-                            <input type="hidden" name="customer_id" id="customerId" value="{{old('customer_id')}}">
+                                   value="{{old('customer')?old('customer'):$invoice->customer->name_customer}}">
+                            <input type="hidden" name="customer_id" id="customerId"
+                                   value="{{old('customer_id')?old('customer_id'):$invoice->customer->name_customer}}">
                             <a class=" marginTop-20 Button Button-Transparent" href="/admin/clientes/nuevo">
                                 Crear un cliente</a>
                         </label>
                         <div class=" marginTop-20">
                             <label for="address"><span>Dirección</span>
                                 <textarea name="address" id="address"
-                                          placeholder="Introduce la dirección completa del cliente">{{old('address')}}</textarea>
+                                          placeholder="Introduce la dirección completa del cliente">{{old('address')?old('address'):$invoice->address}}</textarea>
                             </label>
                         </div>
                     </div>
                     <div class="col-7">
                         <div class="row between">
                             <label for="date" class="col-7 "><span>Fecha de factura</span>
-                                <input type="date" name="date" placeholder="" value="{{old('date')}}">
+                                <input type="date" name="date" placeholder="" value="{{old('date')?old('date'):$invoice->date}}">
                             </label>
                             <label for="number" class="col-7"><span>N.º de factura</span>
                                 <input type="text" name="number" class="alignRight" value="{{old('number')}}">

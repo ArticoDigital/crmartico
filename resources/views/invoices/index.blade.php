@@ -17,22 +17,26 @@
     </div>
     <section class="Table">
         <div class="Table-header row around ">
-            <div class="col-2">Estado</div>
-            <div class="col-3">Nº</div>
+            <div class="col-2">Nº</div>
+            <div class="col-3">Estado</div>
             <div class="col-4">Cliente</div>
             <div class="col-2 ACenter">Fecha</div>
             <div class="col-2 ACenter">Vencimiento</div>
             <div class="col-2 ARight">Importe</div>
             <div class="col-1"></div>
         </div>
-        <div class="Table-row row around ">
-            <div class="col-2">Parcial</div>
-            <div class="col-3">3</div>
-            <div class="col-4">Lilipink</div>
-            <div class="col-2 ACenter">24.02.2017</div>
-            <div class="col-2 ACenter">24.02.2017</div>
-            <div class="col-2 ARight">10.000</div>
-            <div class="col-1"></div>
+        <div >
+            @foreach($invoices as $invoice)
+                <a href="/admin/facturas/{{$invoice->id}}/editar" class="Table-row row around ">
+                    <div class="col-2">{{$invoice->number}}</div>
+                    <div class="col-3">{{$invoice->state->name}}</div>
+                    <div class="col-4">{{$invoice->customer->name_customer}}</div>
+                    <div class="col-2 ACenter">{{$invoice->date}}</div>
+                    <div class="col-2 ACenter">{{$invoice->due_date}}</div>
+                    <div class="col-2 ARight"></div>
+                    <div class="col-1"></div>
+                </a>
+            @endforeach
         </div>
     </section>
 @endsection
