@@ -23,7 +23,7 @@
             </div>
         @endif
 
-        <form action="/admin/facturas/nueva" method="post" id="newInvoice">
+        <form action="/admin/facturas/editar" method="post" id="newInvoice">
             {{csrf_field()}}
             <article class="Invoice-area">
                 <h3>Clientes y fechas</h3>
@@ -49,40 +49,44 @@
                     <div class="col-7">
                         <div class="row between">
                             <label for="date" class="col-7 "><span>Fecha de factura</span>
-                                <input type="date" name="date" placeholder="" value="{{old('date')?old('date'):$invoice->date}}">
+                                <input type="date" name="date" placeholder=""
+                                       value="{{old('date')?old('date'):$invoice->date}}">
                             </label>
                             <label for="number" class="col-7"><span>N.º de factura</span>
-                                <input type="text" name="number" class="alignRight" value="{{old('number')}}">
+                                <input type="text" name="number" class="alignRight"
+                                       value="{{old('date')?old('date'):$invoice->date}}">
                             </label>
                         </div>
                         <div class="row between">
                             <label id="payment_conditions" class="col-7 Label-select"><span>Condiciones de pago</span>
+                                @php( $oldPayment =  old('payment_conditions') ? old('payment_conditions') : $invoice->payment_conditions )
                                 <select name="payment_conditions" id="">
-                                    <option value="14" {{ (old('payment_conditions') == 14) ?'selected':'' }}>A 14
+                                    <option value="14" {{ ($oldPayment == 14) ?'selected':'' }}>A 14
                                         días
                                     </option>
-                                    <option value="30" {{ (old('payment_conditions') == 30) ?'selected':'' }}>A 30
+                                    <option value="30" {{ ($oldPayment == 30) ?'selected':'' }}>A 30
                                         días
                                     </option>
-                                    <option value="8" {{ (old('payment_conditions') == 8) ?'selected':'' }}>A 8 días
+                                    <option value="8" {{ ($oldPayment == 8) ?'selected':'' }}>A 8 días
                                     </option>
-                                    <option value="manual" {{ (old('payment_conditions') == 'manual') ?'selected':'' }}>
+                                    <option value="manual" {{ ($oldPayment == 'manual') ?'selected':'' }}>
                                         Definir manualmente
                                     </option>
-                                    <option value="pagado" {{ (old('payment_conditions') == 'pagado') ?'selected':'' }}>
+                                    <option value="pagado" {{ ($oldPayment == 'pagado') ?'selected':'' }}>
                                         Pagado
                                     </option>
                                 </select>
                             </label>
                             <label for="due_date" class="col-7"><span>Fecha de vencimiento</span>
-                                <input type="date" name="due_date" value="{{old('due_date')}}">
+                                <input type="date" name="due_date"
+                                       value="{{old('due_date')?old('due_date'):$invoice->date}}">
                             </label>
                         </div>
 
                         <label for="note">
                             <span>Nota</span>
                             <textarea name="note"
-                                      placeholder="Introduce un mensaje para el cliente">{{old('note')}}</textarea>
+                                      placeholder="Introduce un mensaje para el cliente">{{old('note')?old('note'):$invoice->note}}</textarea>
                         </label>
                     </div>
                 </div>
@@ -91,6 +95,8 @@
                 <h3>Líneas de facturas</h3>
                 @php($old = session()->getOldInput())
                 @php($countProduct = ($old) ? collect( $old['product'])->count() : 1)
+                @php($countProduct =  ($countProduct > $invoice->products->count()) ? $countProduct: $invoice->products->count())
+
                 <ul id="items" data-size="{{$countProduct}}">
                     @for($i = 0; $i < $countProduct; $i++)
                         <li class="row middle Invoice-product products item" draggable="true" id="product-{{$i}}">
@@ -100,16 +106,17 @@
                             <label for="product{{$i}}Name" class="col-6">
                                 <span>Producto</span>
                                 <input id="product{{$i}}Name" type="text"
-                                       value="{{ ($old) ? $old['product'][$i]['name'] : '' }}"
+                                       value="{{ ($old) ? $old['product'][$i]['name'] : $invoice->products[$i]->name }}"
                                        class="changeInput" name="product[{{$i}}][name]">
                                 <input id="product{{$i}}Id"
-                                       value="{{ ($old) ? $old['product'][$i]['product_id'] : '' }}"
+                                       value="{{ ($old) ? $old['product'][$i]['product_id'] : $invoice->products[$i]->id  }}"
                                        type="hidden" name="product[{{$i}}][product_id]">
                             </label>
                             <label for="producto{{$i}}Quantity" class="col-2">
                                 <span>Cantidad</span>
                                 <input
-                                        value="{{ ($old) ? $old['product'][$i]['quantity'] : '1' }}" min="1"
+                                        value="{{ ($old) ? $old['product'][$i]['quantity'] : $invoice->products[$i]->pivot->quantity }}"
+                                        min="1"
                                         id="producto{{$i}}Quantity" type="number" name="product[{{$i}}][quantity]"
                                         class="alignRight changeInput quantity">
                             </label>
@@ -117,27 +124,23 @@
                             <label for="producto{{$i}}Discount" class="col-2">
                                 <span>Descuento %</span>
                                 <input type="text" id="producto{{$i}}Discount" name="product[{{$i}}][discount]"
-                                       value="{{ ($old) ? $old['product'][$i]['discount'] : '0%' }}"
+                                       value="{{ ($old) ? $old['product'][$i]['discount'] : $invoice->products[$i]->pivot->discount }}"
                                        class="percentage alignRight changeInput discount">
                             </label>
                             <label for="producto{{$i}}Net_price" class="col-2">
                                 <span>Precio (neto)</span>
                                 <input
-                                        value="{{ ($old) ? $old['product'][$i]['net_price'] : '0%' }}"
+                                        value="{{ ($old) ? $old['product'][$i]['net_price'] : $invoice->products[$i]->pivot->net_price }}"
                                         id="producto{{$i}}Net_price" type="text" name="product[{{$i}}][net_price]"
                                         class="alignRight money changeInput net_price">
                             </label>
                             <label id="producto{{$i}}Iva" class="col-2 Label-select"><span>IVA</span>
+                                @php( $oldIva =  (($old)) ? $old["product"][$i]["iva"] :  $invoice->products[$i]->pivot->iva )
                                 <select name="product[{{$i}}][iva]" id="producto{{$i}}Iva" class="changeInput iva">
-                                    <option value="0" {{(($old && $old["product"][$i]["iva"])== 0)?'selected':'' }}>0%
-                                    </option>
-                                    <option value="5" {{(($old && $old["product"][$i]["iva"]) == 5)?'selected':''}}>5%
-                                    </option>
-                                    <option value="8" {{(($old && $old["product"][$i]["iva"]) == 8)?'selected':''}}>8%
-                                    </option>
-                                    <option value="19" {{(($old && $old["product"][$i]["iva"])== 19)?'selected':''}}>
-                                        19%
-                                    </option>
+                                    <option value="0" {{($oldIva == 0)?'selected':'' }}>0%</option>
+                                    <option value="5" {{($oldIva == 5)?'selected':''}}>5%</option>
+                                    <option value="8" {{($oldIva == 8)?'selected':''}}>8%</option>
+                                    <option value="19" {{($oldIva == 19)?'selected':''}}>19%</option>
                                 </select>
                             </label>
 
@@ -150,7 +153,7 @@
                             <label for="producto{{$i}}Description" class="col-10">
                                 <span>Descripción</span>
                                 <input id="producto{{$i}}Description" type="text" name="product[{{$i}}][Description]"
-                                       value="{{ ($old) ? $old['product'][$i]['Description'] : '' }}">
+                                       value="{{ ($old) ? $old['product'][$i]['Description'] : $invoice->products[$i]->pivot->description }}">
                             </label>
                             <div class="Invoice-tax row">
                                 <input type="checkbox" name="product[{{$i}}][withholding_tax]" id="invoicetax">
@@ -189,7 +192,7 @@
             <article class="Invoice-borderTop row">
                 <h3 draggable="true">Términos</h3>
                 <textarea name="terms" placeholder="Introduce términos, Resolución de facturación DIAN,
-                instrucciones de pago u otras notas adicionales">{{old('terms')}}</textarea>
+                instrucciones de pago u otras notas adicionales">{{old('terms')?old('terms'):$invoice->terms}}</textarea>
             </article>
         </form>
         <datalist id="customers">
@@ -261,8 +264,6 @@
         const items = document.querySelector('#items'),
             buttons = document.querySelector('#Buttons');
         var item = items.dataset.size;
-
-        total();
 
         for (var i = 0; i < item; i++) {
             generateAutoComplete(i);
@@ -400,7 +401,16 @@
                 callback.call(scope, el, array[el]);
             });
         };
+        document.querySelectorAll('.products').forEach(function (li) {
+            var quantity = numeral(li.querySelector('.quantity').value).value(),
+                net_price = numeral(li.querySelector('.net_price').value).value(),
+                discount = numeral(li.querySelector('.discount').value).value(),
+                price = li.querySelector('.price'),
+                value = ( net_price * quantity  ) * ( 1 - discount)
 
+            price.value = numeral(value).format('$0,0')
+        });
+        total();
         function calcInvoice(el) {
             el.addEventListener('blur', function () {
                 var li = el.parentNode.parentNode,
@@ -416,6 +426,7 @@
         }
 
         function total() {
+
             var iva = {},
                 totales = 0,
                 total = 0,
