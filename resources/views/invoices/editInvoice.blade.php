@@ -5,11 +5,47 @@
     <div class="col-16 row TitleBar">
         <a class="TitleBar-navLink " href="/admin/facturas"> ← Facturas</a>
     </div>
+    <form action="/admin/facturas/eliminar" method="post" id="formDelete">
+        {{csrf_field()}}
+        <input type="hidden" name="id" id="idInvoice" value="{{$invoice->id}}">
+    </form>
+    <form action="/admin/facturas/parciales/eliminar" method="post" id="formDeletePartial">
+        {{csrf_field()}}
+        <input type="hidden" name="idPartial" id="idPartial">
+    </form>
+
+
+    <div class="Expenses-partials" id="IncomePartial">
+        <p>Avances (pendiente: <span id="pending">{{$invoice->pending}}</span>)</p>
+        @if($invoice->partialSum)
+
+            @foreach($invoice->advances as $partial)
+                <div class="row middle Expenses-partial">
+                    <div class="col-1 ACenter"><img src="/img/data.svg" alt=""></div>
+                    <div class="col-6 "> {{$partial->description}}</div>
+                    <div class="col-4 alignRight"> {{$partial->date}}</div>
+                    <div class="col-4 alignRight"> {{$partial->price}}</div>
+                    <div class="col-1 ACenter">
+                        <button class="reset"
+                                onclick="partialDelete({{$partial->id}})"><img src="/img/delete.svg" alt=""></button>
+                    </div>
+                </div>
+            @endforeach
+        @endif
+    </div>
+
     <div class="Table-title row between middle">
-        <h1>Factura</h1>
+        <h1>Factura pendiente </h1>
         <div class="row">
+            <a id="deleteInvoice" class="Button Button-red">Eliminar</a>
+            <a id="" class="Button Button-Transparent">Enviar proforma</a>
+            <a id="" class="Button Button-Transparent">imprimir</a>
             <a class="Button-Transparent">Mostrar</a>
-            <a id="submit" class="Button Button-blue">Guardar</a>
+            @if($invoice->pending)
+                <button id="pay" href="" class="Button Button-Transparent">Pagar factura</button>
+            @endif
+            <a id="submit" class="Button Button-blue">Terminar y ver factura</a>
+            <a  class="Button Button-blue">Guardar</a>
         </div>
     </div>
     <section class="Invoice">
@@ -35,7 +71,7 @@
                             <input type="text" name="customer" id="customer" placeholder=""
                                    value="{{old('customer')?old('customer'):$invoice->customer->name_customer}}">
                             <input type="hidden" name="customer_id" id="customerId"
-                                   value="{{old('customer_id')?old('customer_id'):$invoice->customer->name_customer}}">
+                                   value="{{old('customer_id')?old('customer_id'):$invoice->customer->id}}">
                             <a class=" marginTop-20 Button Button-Transparent" href="/admin/clientes/nuevo">
                                 Crear un cliente</a>
                         </label>
@@ -54,7 +90,7 @@
                             </label>
                             <label for="number" class="col-7"><span>N.º de factura</span>
                                 <input type="text" name="number" class="alignRight"
-                                       value="{{old('date')?old('date'):$invoice->date}}">
+                                       value="{{old('number')?old('number'):$invoice->number}}">
                             </label>
                         </div>
                         <div class="row between">
@@ -220,14 +256,21 @@
     </section>
 
 @endsection
+@section('styles')
+    <link rel="stylesheet" href="{{asset('/css/tingle.min.css')}}">
+@endsection
 @section('scripts')
 
     <script src="{{url('js/auto-complete.min.js')}}"></script>
     <script src="{{url('js/CompleteGenerateV2.js')}}"></script>
     <script src="{{url('js/sortable.min.js')}}"></script>
     <script src="{{asset('/js/numeral.min.js')}}"></script>
+    <script src="{{asset('js/tingle.min.js')}}"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <script>
-        var el = document.getElementById('items');
+        var el = document.getElementById('items'),
+            pending = document.getElementById('pending')
         Sortable.create(el, {
             animation: 150,
             handle: '.move',
@@ -411,6 +454,7 @@
             price.value = numeral(value).format('$0,0')
         });
         total();
+
         function calcInvoice(el) {
             el.addEventListener('blur', function () {
                 var li = el.parentNode.parentNode,
@@ -426,7 +470,7 @@
         }
 
         function total() {
-
+            pending.innerHTML = numeral(pending.textContent).format('$0,0');
             var iva = {},
                 totales = 0,
                 total = 0,
@@ -474,5 +518,121 @@
         actionsClass(document.querySelectorAll('.percentage'), numberFormat)
         actionsClass(document.querySelectorAll('.money'), moneyFormat)
 
+
+        const IncomePartial = document.querySelector('#IncomePartial'),
+            partials = document.querySelector('#pending');
+        var modal = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            onOpen: function () {
+                var pay = document.querySelector('#importePay');
+                pay.value = partials.textContent
+
+                pay.addEventListener('blur', function () {
+                    var totalImport = numeral(this.value).value(),
+                        importpay = numeral(partials.textContent).value();
+                    if (totalImport > importpay) {
+                        this.value = numeral(importpay).format('$0,0.00')
+                    } else {
+                        this.value = numeral(this.value).format('$0,0.00');
+                    }
+                })
+            },
+        });
+        modal.setContent(' <form action="" class="">\n' +
+            '        <p>Añadir información sobre el pago de este ingreso:</p>\n' +
+            '        <div class="row between">\n' +
+            '            <label for="" class="col-8"><span>Descripción</span>\n' +
+            '                <input type="text" id="descritionPartial">\n' +
+            '            </label>\n' +
+            '            <label for="" class="col-4"><span>Fecha</span>\n' +
+            '                <input type="date" id="datePartial">\n' +
+            '            </label>\n' +
+            '            <label for="" class="col-4 alignRight"><span>Importe</span>\n' +
+            '                <input type="text" id="importePay"  class="alignRight">\n' +
+            '            </label>\n' +
+            '        </div>\n' +
+            '    </form>\n');
+        modal.addFooterBtn('Cancelar', 'Button Button-Transparent', function () {
+            modal.close();
+        });
+        modal.addFooterBtn('Guardar!', 'Button Button-blue AddPay', function () {
+
+            axios.post('/admin/facturas/parciales', {
+                description: document.querySelector('#descritionPartial').value,
+                date: document.querySelector('#datePartial').value,
+                price: document.querySelector('#importePay').value,
+                invoice_id: document.querySelector('#idInvoice').value,
+                _token: document.querySelector('[name=_token]').value
+            }).then(function (response) {
+                var data = response.data
+                if (data.success) {
+                    var parser = new DOMParser();
+                    var domString = ' <div class="row middle Expenses-partial">\n' +
+                        '                <div class="col-1 ACenter"><img src="/img/data.svg" alt=""></div>\n' +
+                        '                <div class="col-6 ">' + data.partial.description + '</div>\n' +
+                        '                <div class="col-4 alignRight"> ' + data.partial.date + '</div>\n' +
+                        '                <div class="col-4 alignRight"> ' + data.partial.price + '</div>\n' +
+                        '                <div class="col-1 ACenter">' +
+                        '                   <a href="" data-id="' + data.partial.id + '"> ' +
+                        '                           <img src="/img/delete.svg" alt="">' +
+                        '                   </a>' +
+                        '                 </div>\n' +
+                        '            </div>';
+
+                    var html = parser.parseFromString(domString, 'text/html');
+                    IncomePartial.append(html.body.firstChild);
+                    totalPartial = numeral(partials.innerHTML).value() - numeral(data.partial.price).value();
+
+                    if (!totalPartial){
+                        document.querySelector('#pay').remove()
+                    }
+
+                    partials.innerHTML = numeral(totalPartial).format('$0,0.00');
+                    modal.close();
+                }
+            }).catch(function (error) {
+
+            });
+        });
+        document.querySelector('#pay').addEventListener('click', function () {
+            modal.open();
+        })
+        document.querySelector('#deleteInvoice').addEventListener('click', function () {
+            swal({
+                title: "¿Estás seguro de eliminar esta factura?",
+                text: "Una vez eliminado, no podrá recuperarlo",
+                icon: "warning",
+                buttons: ["No, cancelar!", "Si, eliminalo!"],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    document.querySelector('#formDelete').submit();
+                }
+
+            });
+
+        });
+
+        function partialDelete(id) {
+            swal({
+                title: "¿Estás seguro de eliminar este pago parcial?",
+                text: "Una vez eliminado, no podrá recuperarlo",
+                icon: "warning",
+                buttons: ["No, cancelar!", "Si, eliminalo!"],
+                dangerMode: true,
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    document.querySelector('#idPartial').value = id;
+                    document.querySelector('#formDeletePartial').submit();
+                }
+
+            });
+
+        }
+
     </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection
