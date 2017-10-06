@@ -28,7 +28,7 @@ class Invoice extends Model
 
     public function getPartialSumAttribute()
     {
-        return $this->advances->sum('sum');
+            return $this->advances->sum('sum');
     }
     public function getTotalAttribute()
     {

@@ -44,8 +44,8 @@
             @if($invoice->pending)
                 <button id="pay" href="" class="Button Button-Transparent">Pagar factura</button>
             @endif
-            <a id="submit" class="Button Button-blue">Terminar y ver factura</a>
-            <a  class="Button Button-blue">Guardar</a>
+            <a  class="Button Button-blue">Terminar y ver factura</a>
+            <a id="submit" class="Button Button-blue">Guardar</a>
         </div>
     </div>
     <section class="Invoice">
